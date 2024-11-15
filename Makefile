@@ -1,34 +1,35 @@
 K=kernel
 U=user
 
-OBJS = \
-  $K/entry.o \
-  $K/start.o \
-  $K/console.o \
-  $K/printf.o \
-  $K/uart.o \
-  $K/kalloc.o \
-  $K/spinlock.o \
-  $K/string.o \
-  $K/main.o \
-  $K/vm.o \
-  $K/proc.o \
-  $K/swtch.o \
-  $K/trampoline.o \
-  $K/trap.o \
-  $K/syscall.o \
-  $K/sysproc.o \
-  $K/bio.o \
-  $K/fs.o \
-  $K/log.o \
-  $K/sleeplock.o \
-  $K/file.o \
-  $K/pipe.o \
-  $K/exec.o \
-  $K/sysfile.o \
-  $K/kernelvec.o \
-  $K/plic.o \
-  $K/virtio_disk.o
+	OBJS = \
+	$K/entry.o \
+	$K/start.o \
+	$K/console.o \
+	$K/printf.o \
+	$K/uart.o \
+	$K/kalloc.o \
+	$K/spinlock.o \
+	$K/string.o \
+	$K/main.o \
+	$K/vm.o \
+	$K/proc.o \
+	$K/swtch.o \
+	$K/trampoline.o \
+	$K/trap.o \
+	$K/syscall.o \
+	$K/sysproc.o \
+	$K/bio.o \
+	$K/fs.o \
+	$K/log.o \
+	$K/sleeplock.o \
+	$K/file.o \
+	$K/pipe.o \
+	$K/exec.o \
+	$K/sysfile.o \
+	$K/kernelvec.o \
+	$K/plic.o \
+	$K/virtio_disk.o \
+	$K/sysmine.o
 
 # riscv64-unknown-elf- or riscv64-linux-gnu-
 # perhaps in /opt/riscv/bin
@@ -68,6 +69,8 @@ CFLAGS += -fno-builtin-free
 CFLAGS += -fno-builtin-memcpy -Wno-main
 CFLAGS += -fno-builtin-printf -fno-builtin-fprintf -fno-builtin-vprintf
 CFLAGS += -I.
+CFLAGS += -I. -Ikernel
+
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
 
 # Disable PIE when possible (for Ubuntu 16.10 toolchain)
@@ -139,6 +142,7 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
+	$U/_pruebas\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
