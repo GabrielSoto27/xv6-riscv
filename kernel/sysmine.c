@@ -1,4 +1,3 @@
-// kernel/sysmine.c
 #include "types.h"
 #include "riscv.h"
 #include "defs.h"
@@ -15,18 +14,15 @@ int sys_getppid(void) {
     }
 }
 
-int sys_getancestor(void) {
-    int level;
-    argint(0, &level);
-    struct proc *ancestor = myproc();
-    while (level > 0 && ancestor->parent != 0) {
-        ancestor = ancestor->parent;
-        level--;
+int sys_getancestor(int n){
+    struct proc *actual=myproc();
+    for (int i=0; i<n; i++){
+        if (actual->parent==0){
+            return -1;
+        }
+        else{
+            actual= actual->parent;
+        }
     }
-
-    if (level == 0) {
-        return ancestor->pid;
-    } else {
-        return -1;
-    }
+    return actual->pid;
 }
