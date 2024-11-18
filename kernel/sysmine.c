@@ -14,15 +14,20 @@ int sys_getppid(void) {
     }
 }
 
-int sys_getancestor(int n){
-    struct proc *actual=myproc();
-    for (int i=0; i<n; i++){
-        if (actual->parent==0){
+int sys_getancestor(void) {
+    int n;
+    argint(0, &n);
+    struct proc *actual = myproc();  
+    for (int i = 0; i < n; i++) {
+        if (actual->parent == 0) { 
             return -1;
         }
-        else{
-            actual= actual->parent;
-        }
+        actual = actual->parent;
     }
     return actual->pid;
 }
+
+
+
+
+
